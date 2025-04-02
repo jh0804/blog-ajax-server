@@ -21,4 +21,32 @@
     </div>
 </div>
 
+<script>
+    let boardId = document.querySelector("#boardId").value;
+    let boardId2 = getCookie("boardId");
+
+    // 책임 : 통신
+    async function init() {
+        let response = await fetch("/api/boards/" + boardId);
+        let responseBody = await response.json();
+        console.log(responseBody);
+        document.querySelector("#author").value = responseBody.body.author;
+        document.querySelector("#title").value = responseBody.body.title;
+        document.querySelector("#content").value = responseBody.body.content;
+    }
+
+    init();
+
+    function getCookie(key) {
+        const cookies = document.cookie.split('; ');
+        for (let cookie of cookies) {
+            const [k, v] = cookie.split('=');
+            if (k === key) {
+                return v;
+            }
+        }
+        return null; // 해당 키가 없으면 null 반환
+    }
+</script>
+
 {{> layout/footer}}
