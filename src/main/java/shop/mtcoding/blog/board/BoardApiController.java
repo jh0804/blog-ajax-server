@@ -12,7 +12,9 @@ public class BoardApiController {
     private final BoardRepository boardRepository;
 
     @PutMapping("/api/boards/{id}")
-    public ApiUtil<?> update(@PathVariable int id, @RequestBody BoardRequest.UpdateDTO requestDTO) {
+    // @RequestBody이 없으면 form tag로 받은 xwform 형태를 받는데
+    // @RequestBody이 있으면 JSON 데이터를 자동으로 매핑
+    public ApiUtil<?> update(@PathVariable("id") int id, @RequestBody BoardRequest.UpdateDTO requestDTO) {
         boardRepository.updateById(requestDTO, id);
         return new ApiUtil<>(null);
     }
@@ -25,7 +27,7 @@ public class BoardApiController {
     }
 
     @DeleteMapping("/api/boards/{id}")
-    public ApiUtil<?> deleteById(@PathVariable Integer id) {
+    public ApiUtil<?> deleteById(@PathVariable("id") Integer id) {
         Board board = boardRepository.selectOne(id);
         boardRepository.deleteById(id);
         return new ApiUtil<>(null);
@@ -34,6 +36,13 @@ public class BoardApiController {
     @GetMapping("/api/boards/{id}")
     public ApiUtil<?> findById(@PathVariable("id") int id) {
         Board board = boardRepository.selectOne(id);
+
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
+
         return new ApiUtil<>(board); // MessageConverter
     }
 

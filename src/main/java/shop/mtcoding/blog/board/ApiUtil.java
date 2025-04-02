@@ -1,13 +1,12 @@
 package shop.mtcoding.blog.board;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class ApiUtil<T>{
+public class ApiUtil<T> {
     private Integer status; // 200, 400, 404, 405
     private String msg; // 성공, 실패시 -> 정확한 메시지
-    private T body;
+    private T body; // return data
 
     public ApiUtil(T body) {
         this.status = 200;
