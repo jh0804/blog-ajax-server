@@ -34,12 +34,13 @@
         // 2. fetch post 요청하기
         let response = await fetch("/api/boards", {
             method: "post",
-            body: JSON.stringify(requestBody),
+            body: JSON.stringify(requestBody), // JSON 문자열로 바뀜
             headers: {"Content-Type": "application/json"}
-        })
+        }); // response = header+body, responseBody = body
 
         let responseBody = await response.json();
-        // console.log(requestBody);
+        // console.log(responseBody);
+
         // 3. 마지막에 아래 코드로 페이지 이동하기
         location.href = "/"; // = redirect 다끝나면 페이지 이동이 되어야하므로
         // location.reload(); = F5
