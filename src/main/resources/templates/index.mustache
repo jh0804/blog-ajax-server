@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody id="board-box">
-        
+
         </tbody>
     </table>
 
@@ -21,10 +21,21 @@
 
 <script>
 
+    async function deleteBoard(boardId) {
+        let response = await fetch("/api/boards/" + boardId, {method: "delete"});
+        let responseBody = await response.json();
+
+        document.querySelector(`#item-${boardId}`).remove();
+
+        //console.log(responseBody);
+        // location.reload();
+    }
+
     // <tr>을 return
     // 책임 : 컴퍼넌트 생성
     function makeBoard(board) {
         let tr = document.createElement("tr");
+        tr.setAttribute("id", `item-${board.id}`);
         tr.innerHTML = `
             <td>${board.id}</td>
             <td>${board.title}</td>
@@ -32,8 +43,8 @@
             <td>${board.author}</td>
             <td>
                 <div class="d-flex">
-                    <form action="#">
-                        <button class="btn btn-danger" onclick="delBoard(${board.id})">삭제</button>
+                    <form>
+                        <button type="button" class="btn btn-danger" onclick="deleteBoard(${board.id})">삭제</button>
                     </form>
                     <form action="/board/${board.id}/updateForm" method="get">
                         <button class="btn btn-warning">수정</button>
