@@ -6,18 +6,40 @@
         <div class="card-body">
             <form action="#">
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter author" name="author">
+                    <input type="text" class="form-control" placeholder="Enter author" id="author">
                 </div>
                 <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Enter title" name="title">
+                    <input type="text" class="form-control" placeholder="Enter title" id="title">
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" rows="5" name="content"></textarea>
+                    <textarea class="form-control" rows="5" placeholder="Enter content" id="content"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary form-control">글쓰기완료</button>
+                <button type="button" onclick="writeBoard()" class="btn btn-primary form-control">글쓰기완료</button>
             </form>
         </div>
     </div>
 </div>
 
+<script>
+    async function writeBoard(){
+        // 1. id 값 찾아서 requestBody 오브젝트에 넣기
+        let requestBody = {
+            "author" : document.querySelector("#author").value,
+            "title" : document.querySelector("#title").value,
+            "content" : document.querySelector("#content").value
+        }
+
+        // 2. fetch post 요청하기
+        let response = await fetch("/api/boards", {
+            method: "post",
+            body: JSON.stringify(requestBody),
+            headers: {"Content-Type": "application/json"}
+        });
+
+        let responseBody = await response.json();
+
+        // 3. 기본 페이지로 이동하기
+        location.href = "/";
+    }
+</script>
 {{> layout/footer}}
