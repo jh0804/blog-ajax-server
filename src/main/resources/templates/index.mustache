@@ -31,7 +31,7 @@
             <td>
                 <div class="d-flex">
                     <form action="#">
-                        <button class="btn btn-danger">삭제</button>
+                        <button type="button" class="btn btn-danger" onclick="deleteBoard(${board.id})">삭제</button>
                     </form>
                     <form action="/board/${board.id}/updateForm" method="get">
                         <button class="btn btn-warning">수정</button>
@@ -56,6 +56,14 @@
         });
     }
     init();
+
+    // 게시글 삭제
+    async function deleteBoard(boardId){
+        let response = await fetch("api/boards/"+boardId,{method:"delete"});
+        let responseBody = await response.json();
+
+        document.querySelector(`#item-${boardId}`).remove();
+    }
 
 </script>
 
